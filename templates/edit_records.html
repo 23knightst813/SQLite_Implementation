@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Booking{% endblock %}
+
+{% block content %}
+<h1>Add a record</h1>
+
+<script>
+    document.getElementById('record_type').addEventListener('change', function() {
+        var selectedOption = this.value;
+        var inputContainer = document.getElementById('dynamic_inputs');
+        inputContainer.innerHTML = ''; // Clear previous inputs
+
+        if (selectedOption === 'Customer') {
+
+            inputContainer.innerHTML += '<input type="text" name="firstName" placeholder="Enter customer first name" required />';
+            inputContainer.innerHTML += '<input type="text" name="lastName" placeholder="Enter customer last name" required />';
+            inputContainer.innerHTML += '<input type="text" name="customer_email" placeholder="Enter customer email" required />';
+            inputContainer.innerHTML += '<input type="text" name="Phone" placeholder="Enter customer phone number" required />';
+
+
+        } else if (selectedOption === 'Product') {
+
+            inputContainer.innerHTML += '<input type="text" name="productName" placeholder="productName" required />';
+            inputContainer.innerHTML += '<input type="text" name="productDescription" placeholder="productDescription" required />';
+            inputContainer.innerHTML += '<input type="text" name="productDescription" placeholder="productDescription" required />';
+            inputContainer.innerHTML += '<input type="text" name="price" placeholder="price" required />';
+
+        } else if (selectedOption === 'sale') {
+
+            inputContainer.innerHTML += '<input type="text" name="productID" placeholder="productID" required />';
+            inputContainer.innerHTML += '<input type="text" name="customerID" placeholder="customerID" required />';
+            
+
+        }
+    });
+</script>
+
+<form action="/add_record" method="post">
+    <select name="record_type" id="record_type">
+        <option value="Customer">customer Table</option>
+        <option value="Product">Product Table</option>
+        <option value="sale">Sale Table</option>
+    </select>
+    <div id="dynamic_inputs"></div>
+</form>
+
+{% endblock %}

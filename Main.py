@@ -1,4 +1,4 @@
-from flask import Flask, render_template #Flask library and functions
+from flask import Flask, render_template, redirect, render_template, request #Flask library and functions
 import sqlite3 #Our database
 import datetime #Used to display current date & time
 
@@ -78,6 +78,18 @@ def about():
 @app.route('/booking')
 def booking():
     return render_template('booking.html')
+
+@app.route('/edit_records')
+def edit_records():
+        if request.method == "POST":
+
+            table_name = request.form["table"]
+
+            
+
+
+        if request.method == "GET":
+          return render_template('edit_records.html')
 
 @app.route('/products')
 def products():
