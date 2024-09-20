@@ -1,48 +1,52 @@
 {% extends "base.html" %}
 
-{% block title %}Booking{% endblock %}
+{% block title %}Add/Edit Records{% endblock %}
 
 {% block content %}
-<h1>Add a record</h1>
+<div class="edit-records-form">
+    <h1>Add a Record</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form action="/add_records" method="post">
+        <select name="record_type" id="record_type">
+            <option value="">Select a table</option>
+            <option value="Customer">Customer Table</option>
+            <option value="Product">Product Table</option>
+            <option value="sale">Sale Table</option>
+        </select>
+        <div id="dynamic_inputs"></div>
+        <button type="submit">Add Record</button>
+    </form>
+</div>
 
 <script>
     document.getElementById('record_type').addEventListener('change', function() {
         var selectedOption = this.value;
         var inputContainer = document.getElementById('dynamic_inputs');
-        inputContainer.innerHTML = ''; // Clear previous inputs
+        inputContainer.innerHTML = ''; 
 
         if (selectedOption === 'Customer') {
-
-            inputContainer.innerHTML += '<input type="text" name="firstName" placeholder="Enter customer first name" required />';
-            inputContainer.innerHTML += '<input type="text" name="lastName" placeholder="Enter customer last name" required />';
-            inputContainer.innerHTML += '<input type="text" name="customer_email" placeholder="Enter customer email" required />';
-            inputContainer.innerHTML += '<input type="text" name="Phone" placeholder="Enter customer phone number" required />';
-
-
+            inputContainer.innerHTML += '<input type="text" name="firstName" placeholder="First Name" required />';
+            inputContainer.innerHTML += '<input type="text" name="lastName" placeholder="Last Name" required />';
+            inputContainer.innerHTML += '<input type="email" name="customer_email" placeholder="Email" required />';
+            inputContainer.innerHTML += '<input type="tel" name="Phone" placeholder="Phone Number" required />';
         } else if (selectedOption === 'Product') {
-
-            inputContainer.innerHTML += '<input type="text" name="productName" placeholder="productName" required />';
-            inputContainer.innerHTML += '<input type="text" name="productDescription" placeholder="productDescription" required />';
-            inputContainer.innerHTML += '<input type="text" name="productDescription" placeholder="productDescription" required />';
-            inputContainer.innerHTML += '<input type="text" name="price" placeholder="price" required />';
-
+            inputContainer.innerHTML += '<input type="text" name="productName" placeholder="Product Name" required />';
+            inputContainer.innerHTML += '<input type="text" name="productDescription" placeholder="Product Description" required />';
+            inputContainer.innerHTML += '<input type="number" name="price" placeholder="Price" step="0.01" required />';
         } else if (selectedOption === 'sale') {
-
-            inputContainer.innerHTML += '<input type="text" name="productID" placeholder="productID" required />';
-            inputContainer.innerHTML += '<input type="text" name="customerID" placeholder="customerID" required />';
-            
-
+            inputContainer.innerHTML += '<input type="number" name="productID" placeholder="Product ID" required />';
+            inputContainer.innerHTML += '<input type="number" name="customerID" placeholder="Customer ID" required />';
+            inputContainer.innerHTML += '<input type="date" name="date" required />';
+            inputContainer.innerHTML += '<input type="time" name="time" required />';
         }
     });
 </script>
-
-<form action="/add_record" method="post">
-    <select name="record_type" id="record_type">
-        <option value="Customer">customer Table</option>
-        <option value="Product">Product Table</option>
-        <option value="sale">Sale Table</option>
-    </select>
-    <div id="dynamic_inputs"></div>
-</form>
-
 {% endblock %}
